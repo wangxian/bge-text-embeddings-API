@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logging.getLogger(__name__)
 
 app = Flask(__name__)
-model = SentenceTransformer('BAAI/bge-base-zh')
+model = SentenceTransformer('BAAI/bge-large-zh-v1.5')
 
 def make_embeddings(text_string):
     sentences = [text_string]
