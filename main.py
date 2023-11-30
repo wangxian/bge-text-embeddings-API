@@ -18,32 +18,32 @@ def make_embeddings(text_string):
         return embeddings
     
     except Exception as e:
-        error_msg = {'Error': e}
-        logging.error(f'Got Error: {error_msg["Error"]}')
+        error_msg = {'error': e}
+        logging.error(f'got error: {error_msg["error"]}')
         return error_msg, 403
 
-@app.route('/', methods=['POST'])
+@app.route('/v1/embeddings', methods=['POST'])
 def embed_text():
 
     try:
-        text_string = request.get_json()
-        logging.info('Got JSON_DATA.')
+        data = request.get_json()
+        logging.info(data)
 
-        if 'text' not in text_string:
-            error_msg = {'Error':'Missing text field in JSON_DATA.'}
-            logging.error(error_msg['Error'])
+        if 'input' not in data:
+            error_msg = {'error':'missing input field in JSON_DATA.'}
+            logging.error(error_msg['error'])
             return error_msg, 400
-        
-        embeddings = make_embeddings(text_string['text'])
-        logging.info('Embeddings:')
+
+        embeddings = make_embeddings(data['input'])
+        logging.info('embeddings:')
         logging.info(f'{embeddings}')
         embeddings = embeddings.tolist()
-        response_json = json.dumps({'Embeddings':embeddings})
+        response_json = json.dumps({'embeddings':embeddings})
         return response_json, 200
-    
+
     except Exception as e:
-        error_msg = {'Error':e}
-        logging.error(f'Got Error: {error_msg["Error"]}')
+        error_msg = {'error': e}
+        logging.error(f'got error: {error_msg["error"]}')
         return error_msg, 500
 
 if __name__ == '__main__':
